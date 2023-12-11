@@ -1,15 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  // Key names for storing data
-  String _usernameKey = 'username';
-  String _passwordKey = 'password';
+  final String _usernameKey = 'username';
+  final String _passwordKey = 'password';
 
   SecureStorage();
 
-  // Save username and password securely
   Future<void> saveCredentials(String username, String password) async {
     await _secureStorage.write(key: _usernameKey, value: username);
     await _secureStorage.write(key: _passwordKey, value: password);

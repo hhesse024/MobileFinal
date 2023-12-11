@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:morseth_finalprojectpart1/SecureStorage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MainPage(),
     );
   }
 }
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  bool _isLoggedIn = false;
 
   @override
   void initState() {
@@ -34,19 +34,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _checkLoginStatus() async {
-    String? storedUsername = await _secureStorage.read(key: 'test');
-    String? storedPassword = await _secureStorage.read(key: 'test');
-
-    setState(() {
-      _isLoggedIn = storedUsername != null && storedPassword != null;
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Morseth Mobile App'),
+        title: const Text('Morseth Mobile App'),
         centerTitle: true,
         backgroundColor: Colors.teal,
       ),
@@ -68,7 +63,7 @@ class _MainPageState extends State<MainPage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return snapshot.data ?? Container();
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
               },
             ),
@@ -81,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return snapshot.data ?? Container();
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 },
               ),
@@ -93,7 +88,7 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AboutPage()),
+            MaterialPageRoute(builder: (context) => const AboutPage()),
           );
         },
         child: const Text(
@@ -104,6 +99,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+//builds version widget at the bottom of home screen
   Future<Widget> _buildVersionField() async {
     String appVersion = '1.7.4';
 
@@ -113,7 +109,7 @@ class _MainPageState extends State<MainPage> {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           'Version: $appVersion',
-          style: TextStyle(fontSize: 15.0),
+          style: const TextStyle(fontSize: 15.0),
         ),
       ),
     );
@@ -125,32 +121,20 @@ class _MainPageState extends State<MainPage> {
       children: [
         TextField(
           controller: _usernameController,
-          decoration: InputDecoration(labelText: 'Username'),
+          decoration: const InputDecoration(labelText: 'Username'),
         ),
         TextField(
           controller: _passwordController,
-          decoration: InputDecoration(labelText: 'Password'),
+          decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         ElevatedButton(
           onPressed: () async {
             await _login();
           },
-          child: Text('Sign in'),
+          child: const Text('Sign in'),
         ),
-      ],
-    );
-  }
-
-  Widget _buildLoggedInUI() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Center(
-          child: Text('login success'),
-        ),
-        SizedBox(height: 16.0),
       ],
     );
   }
@@ -159,6 +143,7 @@ class _MainPageState extends State<MainPage> {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
+//Gets user input and compares to stored username and password
     if (username.isNotEmpty && password.isNotEmpty) {
       SecureStorage secureStorage = SecureStorage();
       await secureStorage.saveCredentials('test', 'test');
@@ -180,6 +165,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+//Snackbar method for displaying a customized snackbar mesage after log in attempts
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
@@ -188,11 +174,13 @@ class _MainPageState extends State<MainPage> {
 }
 
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: const Text('About'),
         backgroundColor: Colors.teal,
       ),
       body: const Padding(
